@@ -1,123 +1,11 @@
+# main.py
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
-import random
-import string
-from datetime import datetime, timedelta
 
-celebrity_names = [
-    "Pacquiao, Emmanuel Dapidran, P.",
-    "Soberano, Liza, S.",
-    "Bernardo, Kathryn Chandria, B.",
-    "Padilla, Daniel John, P.",
-    "Lustre, Nadine, L.",
-    "Reid, Robert James, R.",
-    "Curtis, Anne, J.",
-    "Pascual, Piolo, O.",
-    "Geronimo, Sarah, G.",
-    "Ganda, Vice, R.",
-    "Rivera, Marian, D.",
-    "Dantes, Dingdong, A.",
-    "Locsin, Angel, C.",
-    "Martin, Coco, M.",
-]
-
-pup_directors = [
-    "Dr. Manuel A. Dela Cruz",
-    "Dr. Maria Elena C. De Leon",
-    "Dr. Jose R. De Vera",
-    "Dr. Rhea Mae A. Villanueva",
-    "Dr. Arnel A. De Guzman",
-]
-
-pup_positions = [
-    "University President",
-    "Vice President for Academic Affairs",
-    "Vice President for Administration",
-    "Registrar",
-    "Director of Student Affairs",
-    "Director of Admissions",
-    "Director of Finance",
-    "Director of Human Resources",
-    "Director of Research",
-    "Department Chair",
-    "Program Coordinator",
-    "Faculty Member",
-    "Administrative Officer",
-    "Guidance Counselor",
-]
-
-fields_of_expertise = [
-    "Computer Science",
-    "Business Administration",
-    "Education",
-    "Engineering",
-    "Nursing",
-    "Psychology",
-    "Information Technology",
-    "Marketing",
-    "Finance",
-    "Hospitality Management",
-    "Environmental Science",
-    "Graphic Design",
-    "Architecture",
-    "Law",
-    "Medicine",
-]
-
-complete_addresses = [
-    "123 Rizal Avenue, Quezon City, Metro Manila",
-    "456 Magsaysay Boulevard, Cebu City, Cebu",
-    "789 Bonifacio Street, Davao City, Davao del Sur",
-    "101 Del Pilar Street, Makati, Metro Manila",
-    "202 Burgos Street, Taguig, Metro Manila",
-    "303 Aguinaldo Highway, Baguio, Benguet",
-    "404 Calle Real, Iloilo City, Iloilo",
-    "505 P. Burgos Street, Cagayan de Oro, Misamis Oriental",
-    "606 Luna Street, Pasig, Metro Manila",
-    "707 Quezon Avenue, Manila, Metro Manila",
-]
-
-real_subjects = [
-    "Professional Ethics",
-    "Data Structures",
-    "Software Engineering",
-    "Database Management Systems",
-    "Operating Systems",
-    "Web Development",
-    "Network Security",
-    "Artificial Intelligence",
-    "Human-Computer Interaction",
-    "Project Management",
-    "Digital Marketing",
-    "Financial Accounting",
-    "Business Law",
-    "Microeconomics",
-    "Macroeconomics",
-]
-
-def random_string(length):
-    letters = string.ascii_letters
-    return ''.join(random.choice(letters) for i in range(length))
-
-def random_number(length):
-    return ''.join(random.choice(string.digits) for i in range(length))
-
-def generate_email(full_name):
-    first_name = full_name.split(", ")[1].split(" ")[0].lower()
-    return f"{first_name}@gmail.com"
-
-def specific_date():
-    return "28-06-2025"
-
-def generate_time_range():
-    start_hour = random.randint(8, 20) 
-    start_minute = random.choice([0, 30])
-    start_time = datetime.strptime(f"{start_hour}:{start_minute}", "%H:%M")
-    end_time = start_time + timedelta(hours=3)
-    return f"{start_time.strftime('%I:%M %p')} - {end_time.strftime('%I:%M %p')}"
+from data import *
 
 driver = webdriver.Chrome()
 driver.get("http://localhost/ocss/admin.php")
@@ -151,7 +39,7 @@ emp_number = driver.find_element(By.NAME, "emp_number")
 emp_number.send_keys(random_number(5))
 time.sleep(2) 
 
-full_name = random.choice(celebrity_names)
+full_name = random.choice(faculty_names)
 full_name_field = driver.find_element(By.NAME, "fname")
 full_name_field.send_keys(full_name)
 time.sleep(2) 
@@ -239,7 +127,6 @@ submit_subject_button.click()
 
 time.sleep(2)
 
-
 wait.until(EC.element_to_be_clickable((By.XPATH, "//span[@onclick='openNav()']")))
 time.sleep(2)
 
@@ -293,14 +180,6 @@ add_day_link = driver.find_element(By.XPATH, "//a[@data-toggle='modal' and @data
 add_day_link.click()
 time.sleep(2)
 
-short_days = {
-    "Monday": "m",
-    "Tuesday": "t",
-    "Wednesday": "w",
-    "Thursday": "th",
-    "Friday": "f",
-    "Saturday": "s"
-}
 assigned_day = random.choice(list(short_days.values())) 
 day_input = driver.find_element(By.NAME, "assigned_day")
 day_input.send_keys(assigned_day) 
@@ -380,6 +259,5 @@ save_button = driver.find_element(By.NAME, "add_schedule")
 save_button.click()
 
 time.sleep(3)
-
 
 driver.quit()
